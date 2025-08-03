@@ -18,7 +18,7 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
         return entity;
     }
 
-    public async Task<IReadOnlyList<T>> GetAllAsync()
+    public async Task<IReadOnlyList<T>> ListAllAsync()
     {
         return await context.Set<T>().ToListAsync();
     }
