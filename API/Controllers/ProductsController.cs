@@ -31,6 +31,20 @@ public class ProductsController(IGenericRepository<Product> ProductRepo) : Contr
         return product;
     }
 
+    [HttpGet("brands")]
+    public async Task<ActionResult<IReadOnlyList<string>>> GetBrands()
+    {
+        var spec = new BrandListSpecification();
+        return Ok(await ProductRepo.ListAsync(spec));
+    }
+
+    [HttpGet("types")]
+    public async Task<ActionResult<IReadOnlyList<string>>> GetTypes()
+    {
+        var spec = new TypeListSpecification();
+        return Ok(await ProductRepo.ListAsync(spec));
+    }
+
     [HttpPost]
     public async Task<ActionResult<Product>> CreateProduct(Product product)
     {
@@ -73,6 +87,7 @@ public class ProductsController(IGenericRepository<Product> ProductRepo) : Contr
         return BadRequest("Problem deleting the product");
     }
 
+    
     private bool ProductExists(int id)
     {
         return ProductRepo.Exists(id);
