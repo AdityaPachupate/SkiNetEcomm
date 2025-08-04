@@ -1,5 +1,3 @@
-using System;
-using System.Reflection.Metadata.Ecma335;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -47,5 +45,20 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
     public bool Exists(int id)
     {
         return context.Set<T>().Any(x=>x.Id== id);
+    }
+
+    private IQueryable<T> ApplySpecification(ISpecifications<T> spec)
+    {
+        return SpecificationEvaluator.GetQuery(context.Set<T>().AsQueryable(), spec);
+    }
+
+    public async Task<T?> GetEntityWithSpec(ISpecifications<T> spec)
+    {
+        return await ApplySpecification(spec).FirstOrDefaultAsync();
+    }
+
+    public async Task<IReadOnlyList<T>> ListAsync(ISpecifications<T> spec)
+    {
+        return await ApplySpecification(spec).ToListAsync();
     }
 }
