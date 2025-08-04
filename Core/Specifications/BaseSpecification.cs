@@ -17,8 +17,10 @@ public class BaseSpecification<T>(Expression<Func<T, bool>>? criteria) : ISpecif
     {
         OrderBy = OrderByExpression;
     }
-    
-    protected void AddOrderByDescending(Expression<Func<T,object>> OrderByDescExpression){
+
+    protected void AddOrderByDescending(Expression<Func<T, object>> OrderByDescExpression)
+    {
         OrderByDescending = OrderByDescExpression;
+        
     }
 }
